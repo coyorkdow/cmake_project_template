@@ -26,7 +26,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS
 
 find_package(GTest REQUIRED)
 if(NOT GTest_FOUND)
-  message(FATAL_ERROR "GTest not found")
+    message(FATAL_ERROR "GTest not found")
+endif()
+
+find_package(spdlog REQUIRED)
+if(NOT spdlog_FOUND)
+    message(FATAL_ERROR "spdlog not found")
 endif()
 
 list(APPEND PROJECT_SRCS
@@ -36,6 +41,9 @@ list(APPEND PROJECT_SRCS
 add_library(projectcore STATIC ${PROJECT_SRCS})
 target_include_directories(projectcore PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(projectcore PUBLIC
+    spdlog::spdlog_header_only
 )
 
 add_executable(my_project ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
